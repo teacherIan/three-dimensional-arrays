@@ -20,12 +20,17 @@ export const camera = new THREE.PerspectiveCamera(
 );
 scene.add(camera);
 
-export const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+export const renderer = new THREE.WebGLRenderer({
+  canvas,
+  antialias: true,
+  powerPreference: 'high-performance',
+});
 renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
-const controls = new OrbitControls(camera, canvas);
+export const controls = new OrbitControls(camera, canvas);
+controls.autoRotate = true;
 
 window.addEventListener('resize', () => {
   sizes.width = window.innerWidth;
@@ -41,14 +46,16 @@ const sphereGeometry = new THREE.SphereBufferGeometry(0.5, 32, 32);
 const boxGeometry = new THREE.BoxBufferGeometry(1, 1, 1);
 const material = new THREE.MeshNormalMaterial();
 
-export const createSphere = () => {
+export const createSphere = (x = 0, y = 0, z = 0) => {
   const sphere = new THREE.Mesh(sphereGeometry, material);
+  sphere.position.set(x * 2, y * 2, z * 2);
   scene.add(sphere);
   objectArray.push(sphere);
 };
 
-export const createCube = () => {
+export const createCube = (x = 0, y = 0, z = 0) => {
   const cube = new THREE.Mesh(boxGeometry, material);
+  cube.position.set(x * 2, y * 2, z * 2);
   scene.add(cube);
   objectArray.push(cube);
 };
